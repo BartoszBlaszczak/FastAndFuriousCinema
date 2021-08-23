@@ -1,8 +1,13 @@
 package hex.ffcinema.application
 
 import hex.ffcinema.adapter.db.DatabaseRatingsRepository
+import hex.ffcinema.adapter.db.DatabaseRepertoriesRepository
 import hex.ffcinema.adapter.web.RatingController
+import hex.ffcinema.adapter.web.RepertoryController
 import hex.ffcinema.domain.usecase.AddRatingUseCase
+import hex.ffcinema.domain.usecase.AddRepertoryUseCase
+import hex.ffcinema.domain.usecase.GetRepertoriesUseCase
+import hex.ffcinema.domain.usecase.UpdateRepertoryUseCase
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cloud.openfeign.EnableFeignClients
@@ -26,10 +31,15 @@ open class SpringConfiguration (
 	private val properties: Properties,
 ) {
 	@Bean open fun ratingController() = RatingController(addRatingUseCase())
+	@Bean open fun repertoryController() = RepertoryController(getRepertoriesUseCase(), addRepertoryUseCase(), updateRepertoryUseCase())
 	
 	@Bean open fun dbConnection(): Connection = DriverManager.getConnection(properties.dbUrl)
 	@Bean open fun ratingsRepository() = DatabaseRatingsRepository(dbConnection())
+	@Bean open fun repertoriesRepository() = DatabaseRepertoriesRepository(dbConnection())
 	
+	@Bean open fun getRepertoriesUseCase() = GetRepertoriesUseCase(repertoriesRepository())
+	@Bean open fun addRepertoryUseCase() = AddRepertoryUseCase(repertoriesRepository())
+	@Bean open fun updateRepertoryUseCase() = UpdateRepertoryUseCase(repertoriesRepository())
 	@Bean open fun addRatingUseCase() = AddRatingUseCase(ratingsRepository())
 	
 	
