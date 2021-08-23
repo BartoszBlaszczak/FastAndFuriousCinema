@@ -1,0 +1,51 @@
+### health check
+GET localhost:8080/actuator/health
+
+### get current repertories
+GET localhost:8080/repertory
+Content-Type: application/json
+
+###add repertory
+POST localhost:8080/repertory
+Content-Type: application/json
+
+{
+  "movieId": 1,
+  "ticketPrice": {
+	"amount": 19.99,
+	"currency": "USD"
+  },
+  "time": "2031-08-22T16:00:00",
+  "hall": "FIRST"
+}
+
+### update repertory
+PUT localhost:8080/repertory
+Content-Type: application/json
+
+{
+  "id": 1,
+  "movieId": 1,
+  "ticketPrice": {
+	"amount": 19.99,
+	"currency": "USD"
+  },
+  "time": "2031-08-22T16:00:00",
+  "hall": "FIRST"
+}
+
+### get movie details
+GET localhost:8080/movie/1
+
+### add rating
+POST localhost:8080/rating
+Content-Type: application/json
+
+{
+  "movieId": 1,
+  "rating": 5
+}
+
+
+
+
