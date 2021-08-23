@@ -4,6 +4,7 @@ import hex.ffcinema.application.Properties
 import hex.ffcinema.application.SpringConfiguration
 import hex.ffcinema.domain.port.OMDMovieDetails
 import hex.ffcinema.domain.port.OMDRepository
+import hex.ffcinema.domain.usecase.GetMovieDetailsUseCase
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.spring.SpringListener
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration
@@ -12,6 +13,7 @@ import org.springframework.cloud.openfeign.FeignAutoConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
+import java.sql.Connection
 
 @SpringBootTest(classes = [SpringTestConfiguration::class])
 @ImportAutoConfiguration(classes = [FeignAutoConfiguration::class])
@@ -28,8 +30,11 @@ val omdMovieTestDetails = OMDMovieDetails(
 )
 
 @Configuration
-open class SpringTestConfiguration(properties: Properties)
-	: SpringConfiguration(properties) {
+open class SpringTestConfiguration(properties: Properties, omdClient: OMDRepository)
+	: SpringConfiguration(properties, omdClient) {
+	
+	@Bean
+	override fun getMovieDetailsUseCase() = GetMovieDetailsUseCase(omdRepository(), moviesRepository(), ratingsRepository())
 	
 	@Bean
 	@Primary
