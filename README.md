@@ -21,4 +21,4 @@ Notes:
 
 * For ease of use this app uses SQLite as a persistence layer so there is no need to set up database. DB file is named database.sqlite and is created by app. For "real" production it should be replaced by some professional db e.g. PostgreSQL.
 * For ease of use this app uses no security layer. For "real" production it should be implemented.
-
+* This application uses plain JDBC as a database connector. After years of using JPA & JooQ solutions I think that good old JDBC is a better way to work with DB.
